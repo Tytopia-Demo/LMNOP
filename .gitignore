@@ -34,3 +34,20 @@ build/
 
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
 .rvmrc
+
+## RuboCop cache:
+.rubocop-http*cache*
+
+## Environment and secrets:
+.env
+.env.*
+
+## OS artifacts:
+.DS_Store
+Thumbs.db
+
+## Editor and IDE artifacts:
+.idea/
+.vscode/
+*.swp
+*.swo
