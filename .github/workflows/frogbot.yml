@@ -18,13 +18,30 @@ permissions:
 jobs:
   frogbot-scan:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       matrix:
         branch: ["master"]
     steps:
+      - name: Log resource usage (start)
+        run: |
+          echo "=== Resource Usage at Start ==="
+          echo "CPU cores: $(nproc)"
+          echo "Memory: $(free -h)"
+          echo "Disk: $(df -h)"
+          echo "Time: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
       - uses: jfrog/frogbot@v2
         env:
           JF_URL: ${{ secrets.JF_URL }}
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
           JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JF_GIT_BASE_BRANCH: ${{ matrix.branch }}
+
+      - name: Log resource usage (end)
+        if: always()
+        run: |
+          echo "=== Resource Usage at End ==="
+          echo "Memory: $(free -h)"
+          echo "Disk: $(df -h)"
+          echo "Time: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
